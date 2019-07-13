@@ -17,32 +17,33 @@ public class PracticeOnlineServiceImpl implements PracticeOnlineService{
 	private PracticeOnlineDAO practiceOnlineDAO;
 	
 	@Override
-	public long save(Question question) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Question get(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public int createQuestion(Question question) {
+		return practiceOnlineDAO.createQuestion(question);
 	}
 
 	@Override
 	@Transactional
-	public List<Question> getAll() {
-		return practiceOnlineDAO.getAll();
+	public Question getQuestion(int id) {
+		return practiceOnlineDAO.getQuestion(id);
 	}
 
 	@Override
-	public long update(long id, Question question) {
-		// TODO Auto-generated method stub
-		return 0;
+	@Transactional
+	public List<Question> getAllQuestions() {
+		return practiceOnlineDAO.getAllQuestions();
 	}
 
 	@Override
-	public void delete(long id) {
-		// TODO Auto-generated method stub
+	@Transactional
+	public int updateQuestion(int id, Question question) {
+		return practiceOnlineDAO.updateQuestion(id, question);
+	}
+
+	@Override
+	@Transactional
+	public void deleteQuestion(int id) {
+		practiceOnlineDAO.deleteQuestion(id);
 		
 	}
 

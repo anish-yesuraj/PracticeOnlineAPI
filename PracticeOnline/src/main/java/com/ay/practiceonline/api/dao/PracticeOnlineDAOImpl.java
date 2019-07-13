@@ -2,6 +2,7 @@ package com.ay.practiceonline.api.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,34 +16,39 @@ public class PracticeOnlineDAOImpl implements PracticeOnlineDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public long save(Question question) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int createQuestion(Question question) {
+		sessionFactory.getCurrentSession().save(question);
+		return question.getId();
 	}
 
 	@Override
-	public Question get(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Question getQuestion(int id) {
+		return sessionFactory.getCurrentSession().get(Question.class, id);
 	}
 
 	@Override
-	public List<Question> getAll() {
-		
-		List<Question> listQuestions = sessionFactory.getCurrentSession().createQuery("from Question").getResultList();
+	public List<Question> getAllQuestions() {
+		List<Question> listQuestions = (List<Question>)sessionFactory.getCurrentSession().createQuery("from Question where active = true ").getResultList();
 		return listQuestions;
 	}
 
 	@Override
-	public long update(long id, Question question) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateQuestion(int id, Question question) {
+		//Check if saveOrUpdate to be used or any other update logic
+		sessionFactory.getCurrentSession().saveOrUpdate(question);
+		return question.getId();
+//		Session session = sessionFactory.getCurrentSession();
+//		Question oldQuestion = session.byId(Question.class).load(id);
+//		oldQuestion = question; // Check if this will work
+//		session.flush();
+//		return oldQuestion.getId();
 	}
 
 	@Override
-	public void delete(long id) {
-		// TODO Auto-generated method stub
-		
+	public void deleteQuestion(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		Question question = session.byId(Question.class).load(id);
+		session.delete(question);
 	}
 	
 	

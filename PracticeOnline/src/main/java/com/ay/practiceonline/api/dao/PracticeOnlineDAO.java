@@ -6,20 +6,20 @@ import com.ay.practiceonline.api.model.Question;
 
 public interface PracticeOnlineDAO {
 	
-	//Save the record
-	long save (Question question);
+	//Create the record
+	int createQuestion (Question question);
 	
 	//Get a single record
-	Question get(long id);
+	Question getQuestion(int id);
 	
 	//Get all the records
-	List<Question> getAll();
+	List<Question> getAllQuestions();
 	
 	//Update the record
-	long update(long id, Question question);
+	int updateQuestion(int id, Question question);
 	
 	//Delete the record
-	void delete (long id);
+	void deleteQuestion (int id);
 	
 
 }

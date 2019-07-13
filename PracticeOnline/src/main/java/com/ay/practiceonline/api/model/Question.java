@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "QUESTION")
-@SecondaryTable(name = "QIMAGE", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class Question implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -30,27 +29,26 @@ public class Question implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "qn_generator")
 	@SequenceGenerator(name="qn_generator", sequenceName = "qn_seq", allocationSize=1)
 	@Column(unique=true, nullable =false)
-	private Long id;
+	private int id;
 	private String subject;
 	private String topic;
 	private String level;
 	private String text;
 	private String tip;
 	private boolean active;
-	
-	@Column(table = "QIMAGE")
 	private String imagePath;
-
-	@Column(table = "QIMAGE")
 	private String imageTip;
 
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonIgnoreProperties(value= {"question"})
+	/** OneToMany - Bidirectional (Mapped by 'question_id' in AnswerChoice) 
+	 * - To Load 'AnswerChoices' while 'Question' is Loaded 
+	 * - To Persist 'AnswerChoices' while 'Question' is Persisted **/
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+	/** JSON - To ignore loading the 'Question' again in the 'AnswerChoice' Object **/
+	@JsonIgnoreProperties(value= {"question"}) 
 	private List<AnswerChoice> answerChoices = new ArrayList<AnswerChoice>();
 
 	public Question() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Question(String subject, String topic, String level, String text, String tip) {
@@ -63,11 +61,11 @@ public class Question implements Serializable{
 		this.active = true;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -140,6 +138,10 @@ public class Question implements Serializable{
 	}
 
 	public void setAnswerChoices(List<AnswerChoice> answerChoices) {
+		for (AnswerChoice choice:answerChoices)
+		{
+			choice.setQuestion(this);
+		}
 		this.answerChoices = answerChoices;
 	}
 

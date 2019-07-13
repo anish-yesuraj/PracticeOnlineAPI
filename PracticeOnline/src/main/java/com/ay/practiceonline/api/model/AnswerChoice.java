@@ -19,35 +19,32 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "ANSWERCHOICE")
-@SecondaryTable(name = "AIMAGE", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id"))
 public class AnswerChoice implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ac_generator")
-	@SequenceGenerator(name="ac_generator", sequenceName = "ac_seq", allocationSize=50)
+	@SequenceGenerator(name="ac_generator", sequenceName = "ac_seq", allocationSize=1)
 	@Column(unique=true, nullable =false)
 	private int id;
 	private String text;
 	private String tip;
 	private boolean result;
 	private boolean active;
-	
-	@Column(table = "AIMAGE")
 	private String imagePath;
-
-	@Column(table = "AIMAGE")
 	private String imageTip;
 	
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	/** ManyToOne - Bidirectional (Mapped by 'question_id' in AnswerChoice) 
+	 *  JoinColumn - question_id will have 'id' from Question **/
+	@ManyToOne//(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "question_id")
-	@JsonIgnoreProperties(value= {"answerChoices"})
+	/** JSON - To ignore loading the 'AnswerChoices' again in the 'Question' Object **/
+	@JsonIgnoreProperties(value= {"answerChoices"}) 
 	private Question question;
 	
 	public AnswerChoice() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public AnswerChoice(String text, String tip, boolean result) {
