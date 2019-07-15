@@ -9,7 +9,7 @@ public class TestApp {
 		Session session = null ;//= AppConfig.getSessionFactory().openSession();
 
 		session.beginTransaction();
-
+		//TODO Test COmmit
 	
 		Question q0 = new Question("Maths", "Add", "Easy", "Q0 : 1 + 3 = ", "Addition");
 		
