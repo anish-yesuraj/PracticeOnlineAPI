@@ -18,13 +18,13 @@ public class PracticeOnlineServiceImpl implements PracticeOnlineService{
 	
 	@Override
 	@Transactional
-	public int createQuestion(Question question) {
+	public String createQuestion(Question question) {
 		return practiceOnlineDAO.createQuestion(question);
 	}
 
 	@Override
 	@Transactional
-	public Question getQuestion(int id) {
+	public Question getQuestion(String id) {
 		return practiceOnlineDAO.getQuestion(id);
 	}
 
@@ -36,15 +36,46 @@ public class PracticeOnlineServiceImpl implements PracticeOnlineService{
 
 	@Override
 	@Transactional
-	public int updateQuestion(int id, Question question) {
-		return practiceOnlineDAO.updateQuestion(id, question);
+	public void updateQuestion(String id, Question question) {
+		practiceOnlineDAO.updateQuestion(id, question);
 	}
 
 	@Override
 	@Transactional
-	public void deleteQuestion(int id) {
+	public void deleteQuestion(String id) {
 		practiceOnlineDAO.deleteQuestion(id);
-		
 	}
+
+	@Override
+	@Transactional
+	public String addMaster(String masterType, Object masterObject) {
+		return practiceOnlineDAO.addMaster(masterType, masterObject);
+	}
+
+	@Override
+	@Transactional
+	public Object getMaster(String masterType, String masterId) {
+		return practiceOnlineDAO.getMaster(masterType, masterId);
+	}
+
+	@Override
+	@Transactional
+	public void updateMaster(String masterType, String masterId, Object masterObject) {
+		practiceOnlineDAO.updateMaster(masterType, masterId, masterObject);
+	}
+
+	@Override
+	@Transactional
+	public void deleteMaster(String masterType, String masterId) {
+		practiceOnlineDAO.deleteMaster(masterType, masterId);
+	}
+
+	@Override
+	@Transactional
+	public Object[] getAllMasterRecords(String masterType) {
+		return practiceOnlineDAO.getAllMasterRecords(masterType);
+	}
+	
+	
 
 }

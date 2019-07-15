@@ -4,30 +4,38 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+import com.ay.practiceonline.api.util.StringPrefixedSequenceIdGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "ANSWERCHOICE")
+@Table(name = "ANSWER_CHOICE")
 public class AnswerChoice implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ac_generator")
-	@SequenceGenerator(name="ac_generator", sequenceName = "ac_seq", allocationSize=1)
-	@Column(unique=true, nullable =false)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ac_seq")
+	@GenericGenerator(
+			name = "ac_seq",
+			strategy = "com.ay.practiceonline.api.util.StringPrefixedSequenceIdGenerator",
+			parameters = {
+					@Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+					@Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "A"),
+					@Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%06d")
+			})
+	@Column(unique=true, nullable =false, length=7)
+	private String id;
 	private String text;
 	private String tip;
 	private boolean result;
@@ -55,11 +63,11 @@ public class AnswerChoice implements Serializable {
 		this.active = true;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

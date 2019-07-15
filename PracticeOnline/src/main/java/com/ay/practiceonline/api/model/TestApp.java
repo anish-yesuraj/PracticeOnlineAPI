@@ -2,8 +2,6 @@ package com.ay.practiceonline.api.model;
 
 import org.hibernate.Session;
 
-import com.ay.practiceonline.api.config.AppConfig;
-
 public class TestApp {
 
 	public static void main(String[] args) {
